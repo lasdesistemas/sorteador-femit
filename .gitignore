@@ -13,3 +13,6 @@
 
 # No subir el csv con los datos de lxs participantes del sorteo
 *.csv
+
+# No subir binario
+sorteador-femit
