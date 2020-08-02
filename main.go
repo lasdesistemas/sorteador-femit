@@ -2,11 +2,10 @@ package main
 
 import (
 	"fmt"
-	"math/rand"
 	"strings"
-	"time"
 
 	"github.com/lasdesistemas/sorteador-femit/csv"
+	"github.com/lasdesistemas/sorteador-femit/sorteo"
 )
 
 var archivo string = "sorteo.csv"
@@ -16,17 +15,9 @@ func main() {
 	csv := csv.New(archivo)
 	participantes := csv.Procesar()
 
-	ganadore := sortear(participantes)
+	ganadore := sorteo.PersonaGanadora(participantes)
 
 	fmt.Printf("La persona ganadora es: %s - %s\n", ganadore[0], ocultarMail(ganadore[1]))
-}
-
-func sortear(participantes [][]string) []string {
-	semilla := rand.NewSource(time.Now().UnixNano())
-	random := rand.New(semilla)
-	elegidx := random.Intn(len(participantes))
-	fmt.Printf("La fila elegida es: %d\n", elegidx+1)
-	return participantes[elegidx]
 }
 
 func ocultarMail(mail string) string {
