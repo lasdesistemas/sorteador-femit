@@ -8,6 +8,7 @@ import (
 	"strings"
 )
 
+// ObtenerParticipantesSorteo Obtiene la lista de participantes del sorteo
 func ObtenerParticipantesSorteo(archivoInscriptesSorteo, archivoInscriptesConf string) [][]string {
 
 	var participantesSorteo [][]string
@@ -15,20 +16,22 @@ func ObtenerParticipantesSorteo(archivoInscriptesSorteo, archivoInscriptesConf s
 	inscriptesSorteo := leerCsv(archivoInscriptesSorteo, ',')
 
 	for _, inscripteSorteo := range inscriptesSorteo {
-		if participanteValido(inscripteSorteo, inscriptesConf) {
+		if puedeParticipar(inscripteSorteo, inscriptesConf) {
 			participantesSorteo = append(participantesSorteo, inscripteSorteo)
 		}
 	}
 
-	fmt.Printf("Personas inscriptas al sorteo: %d\n", len(inscriptesSorteo))
-	fmt.Printf("Personas que participan del sorteo: %d\n", len(participantesSorteo))
+	err := escribirCsv("participantes_sorteo.csv", participantesSorteo)
 
-	escribirCsv("participantes_sorteo.csv", participantesSorteo)
+	if err != nil {
+		fmt.Println("Warning: No se pudo escribir el archivo csv de resguardo de participantes")
+	}
 
 	return participantesSorteo
 }
 
-func participanteValido(inscripteSorteo []string, inscriptesConf [][]string) bool {
+// Una persona puede participar del sorteo solo si está inscripta a la conferencia
+func puedeParticipar(inscripteSorteo []string, inscriptesConf [][]string) bool {
 
 	mailInscripteSorteo := strings.ToLower(strings.Trim(inscripteSorteo[1], " "))
 
@@ -69,7 +72,7 @@ func escribirCsv(rutaArchivo string, registros [][]string) error {
 	archivo, err := os.OpenFile(rutaArchivo, os.O_RDWR|os.O_CREATE, os.ModePerm)
 
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	defer archivo.Close()
