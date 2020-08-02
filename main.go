@@ -8,14 +8,14 @@ import (
 	"github.com/lasdesistemas/sorteador-femit/sorteo"
 )
 
-var archivo string = "sorteo.csv"
+var archivoParticipantes string = "participantes.csv"
+var archivoInscriptes string = "inscriptes.csv"
 
 func main() {
 
-	csv := csv.New(archivo)
-	participantes := csv.Procesar()
+	participantesValidos := csv.ObtenerParticipantesValidos(archivoParticipantes, archivoInscriptes)
 
-	ganadore := sorteo.PersonaGanadora(participantes)
+	ganadore := sorteo.PersonaGanadora(participantesValidos)
 
 	fmt.Printf("La persona ganadora es: %s - %s\n", ganadore[0], ocultarMail(ganadore[1]))
 }
