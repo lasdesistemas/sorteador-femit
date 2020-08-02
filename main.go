@@ -22,7 +22,14 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		fmt.Printf("La persona ganadora es: %s - %s\n", ganadore[0], ocultarMail(ganadore[1]))
+		fmt.Print("\n\n")
+		fmt.Println("**************************************************************************")
+		fmt.Print("**************************************************************************\n\n")
+		fmt.Println("                       LA PERSONA GANADORA ES:")
+		fmt.Println()
+		fmt.Printf("                       %s - %s\n\n", ganadore[0], ocultarMail(ganadore[1]))
+		fmt.Println("**************************************************************************")
+		fmt.Print("**************************************************************************\n\n")
 	}
 }
 
