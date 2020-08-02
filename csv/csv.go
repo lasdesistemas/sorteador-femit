@@ -8,22 +8,24 @@ import (
 	"strings"
 )
 
-func ObtenerParticipantesValidos(archivoInscriptesSorteo, archivoInscriptesConf string) [][]string {
+func ObtenerParticipantesSorteo(archivoInscriptesSorteo, archivoInscriptesConf string) [][]string {
 
-	var participantesValidos [][]string
+	var participantesSorteo [][]string
 	inscriptesConf := leerCsv(archivoInscriptesConf, ';')
 	inscriptesSorteo := leerCsv(archivoInscriptesSorteo, ',')
 
 	for _, inscripteSorteo := range inscriptesSorteo {
 		if participanteValido(inscripteSorteo, inscriptesConf) {
-			participantesValidos = append(participantesValidos, inscripteSorteo)
+			participantesSorteo = append(participantesSorteo, inscripteSorteo)
 		}
 	}
 
 	fmt.Printf("Personas inscriptas al sorteo: %d\n", len(inscriptesSorteo))
-	fmt.Printf("Participantes con mail válido: %d\n", len(participantesValidos))
+	fmt.Printf("Personas que participan del sorteo: %d\n", len(participantesSorteo))
 
-	return participantesValidos
+	escribirCsv("participantes_sorteo.csv", participantesSorteo)
+
+	return participantesSorteo
 }
 
 func participanteValido(inscripteSorteo []string, inscriptesConf [][]string) bool {
@@ -32,7 +34,6 @@ func participanteValido(inscripteSorteo []string, inscriptesConf [][]string) boo
 
 	for _, inscripteConf := range inscriptesConf {
 		mailInscripteConf := strings.ToLower(strings.Trim(inscripteConf[12], " "))
-		fmt.Printf("mail1: %s - mail2: %s\n", mailInscripteSorteo, mailInscripteConf)
 		if strings.Compare(mailInscripteConf, mailInscripteSorteo) == 0 {
 			return true
 		}
@@ -61,4 +62,21 @@ func leerCsv(rutaArchivo string, delimitador rune) [][]string {
 	}
 
 	return registros
+}
+
+func escribirCsv(rutaArchivo string, registros [][]string) error {
+
+	archivo, err := os.OpenFile(rutaArchivo, os.O_RDWR|os.O_CREATE, os.ModePerm)
+
+	if err != nil {
+		panic(err)
+	}
+
+	defer archivo.Close()
+
+	writer := csv.NewWriter(bufio.NewWriter(archivo))
+	writer.Comma = ';'
+
+	return writer.WriteAll(registros)
+
 }

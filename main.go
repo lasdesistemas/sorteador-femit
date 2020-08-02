@@ -13,9 +13,9 @@ var archivoInscriptesConf string = "inscriptes_conf.csv"
 
 func main() {
 
-	participantesValidos := csv.ObtenerParticipantesValidos(archivoInscriptesSorteo, archivoInscriptesConf)
+	participantesSorteo := csv.ObtenerParticipantesSorteo(archivoInscriptesSorteo, archivoInscriptesConf)
 
-	ganadore, err := sorteo.PersonaGanadora(participantesValidos)
+	ganadore, err := sorteo.PersonaGanadora(participantesSorteo)
 
 	if err != nil {
 		fmt.Println(err)
