@@ -1,7 +1,6 @@
 # sorteador-femit
 Programa que realiza el sorteo de FemIT conf 2020 dado el csv de personas inscriptas a la conferencia y el csv de personas inscriptas al sorteo.
 
-separado por comas llamado "sorteo.csv" con dos columnas: Nombre y Apellido - Email
 
 
 ## Instrucciones
