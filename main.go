@@ -15,7 +15,7 @@ func main() {
 
 	participantesSorteo := csv.ObtenerParticipantesSorteo(archivoInscriptesSorteo, archivoInscriptesConf)
 
-	fmt.Printf("Personas que participan del sorteo: %d\n", len(participantesSorteo))
+	fmt.Printf("\nPersonas que participan del sorteo: %d\n", len(participantesSorteo))
 
 	ganadore, err := sorteo.PersonaGanadora(participantesSorteo)
 

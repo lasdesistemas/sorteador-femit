@@ -13,7 +13,7 @@ func PersonaGanadora(participantes [][]string) ([]string, error) {
 
 	if participantes != nil {
 		elegidx := random.Intn(len(participantes))
-		fmt.Printf("La fila elegida es: %d\n", elegidx+1)
+		fmt.Printf("\nLa fila elegida es: %d\n", elegidx+1)
 		return participantes[elegidx], nil
 	}
 

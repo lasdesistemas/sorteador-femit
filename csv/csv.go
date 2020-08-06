@@ -30,16 +30,28 @@ func ObtenerParticipantesSorteo(archivoInscriptesSorteo, archivoInscriptesConf s
 	return participantesSorteo
 }
 
-// Una persona puede participar del sorteo solo si está inscripta a la conferencia
+// Una persona puede participar del sorteo solo si está inscripta a la conferencia y no es hombre cis
 func puedeParticipar(inscripteSorteo []string, inscriptesConf [][]string) bool {
 
+	var seInscribioALaConf bool
+	var inscripteConf []string
 	mailInscripteSorteo := strings.ToLower(strings.Trim(inscripteSorteo[1], " "))
 
-	for _, inscripteConf := range inscriptesConf {
+	for _, inscripteConf = range inscriptesConf {
 		mailInscripteConf := strings.ToLower(strings.Trim(inscripteConf[12], " "))
-		if strings.Compare(mailInscripteConf, mailInscripteSorteo) == 0 {
-			return true
+		seInscribioALaConf = strings.Compare(mailInscripteConf, mailInscripteSorteo) == 0
+		if seInscribioALaConf {
+			genero := strings.ToLower(strings.Trim(inscripteConf[15], " "))
+			if strings.Compare("hombre cis", genero) != 0 {
+				return true
+			}
+			fmt.Printf("------------> NO PARTICIPA: inscripto como hombre cis - %s %s \n", inscripteConf[13], inscripteConf[14])
+			break
 		}
+	}
+
+	if !seInscribioALaConf {
+		fmt.Printf("------------> NO PARTICIPA: no está inscripte a FemIT - %s\n", inscripteSorteo[0])
 	}
 
 	return false
